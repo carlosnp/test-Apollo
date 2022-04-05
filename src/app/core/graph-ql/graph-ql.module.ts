@@ -7,7 +7,23 @@ import { GraphQLRoutingModule } from './graph-ql-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 import {ApolloModule, APOLLO_OPTIONS} from 'apollo-angular';
 import {HttpLink} from 'apollo-angular/http';
-import {InMemoryCache} from '@apollo/client/core';
+import {InMemoryCache, ApolloClientOptions} from '@apollo/client/core';
+
+/**
+ * Url del servidor de graphQL
+ */
+const URI_GRAPHQL = 'https://48p1r2roz4.sse.codesandbox.io';
+
+export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
+  return {
+    cache: new InMemoryCache(),
+    link: httpLink.create({
+      uri: URI_GRAPHQL,
+    }),
+  };
+}
+
+
 
 @NgModule({
   declarations: [],
@@ -20,14 +36,7 @@ import {InMemoryCache} from '@apollo/client/core';
   providers: [
     {
       provide: APOLLO_OPTIONS,
-      useFactory: (httpLink: HttpLink) => {
-        return {
-          cache: new InMemoryCache(),
-          link: httpLink.create({
-            uri: 'https://48p1r2roz4.sse.codesandbox.io',
-          }),
-        };
-      },
+      useFactory: createApollo,
       deps: [HttpLink],
     },
   ],

@@ -1,0 +1,12 @@
+<div *ngIf="rates$ | async as rates" style="display: flex; flex-direction: column;">
+  <div>loading: {{rates.loading}}</div>
+  <div>networkStatus :{{rates.networkStatus}}</div>
+  <div style="display: flex; flex-direction: row;">
+    <div style="display: flex; border: 1px solid red;" *ngIf="rates.data">
+      <pre> {{rates.data|json}} </pre>
+    </div>
+    <div *ngIf="rates.error">
+      <pre> {{rates.error|json}} </pre>
+    </div>
+  </div>
+</div>
